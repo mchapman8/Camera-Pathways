@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GFX 100s II — All 12 Custom Slots Build Guide v3</title>
+<style>
+  :root{--bg:#0f0f0f;--bg-card:#1a1a1a;--bg-sec:#222;--border:rgba(255,255,255,0.08);--border-s:rgba(255,255,255,0.15);--text:#f0ede8;--muted:#888;--dim:#555;--accent:#e8c547;--adim:rgba(232,197,71,0.10);--aborder:rgba(232,197,71,0.25);--green:#4caf7d;--gdim:rgba(76,175,125,0.12);--red:#e05c5c;--rdim:rgba(224,92,92,0.12);--blue:#5b9bd5;--bdim:rgba(91,155,213,0.10);--bborder:rgba(91,155,213,0.25);--orange:#e07c3a;--odim:rgba(224,124,58,0.12);--purple:#9b7fe8;--r:10px;--rs:6px;--mono:'SF Mono','Fira Code','Courier New',monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,'Helvetica Neue',sans-serif;font-size:14px;line-height:1.6;}
+  .hdr{background:var(--bg-card);border-bottom:1px solid var(--border);padding:14px 18px;position:sticky;top:0;z-index:100;}
+  .hrow{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+  .cb{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--adim);border:1px solid var(--aborder);padding:3px 8px;border-radius:99px;}
+  .vb{font-size:10px;font-weight:600;color:var(--green);background:var(--gdim);border:1px solid rgba(76,175,125,.2);padding:3px 8px;border-radius:99px;}
+  h1{font-size:16px;font-weight:600;letter-spacing:-.02em;}
+  .nav{display:flex;gap:3px;flex-wrap:wrap;}
+  .nb{padding:5px 9px;border-radius:99px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);white-space:nowrap;transition:all .12s;}
+  .nb:hover{color:var(--text);border-color:var(--border-s);}
+  .nb.s{background:var(--adim);color:var(--accent);border-color:var(--aborder);}
+  .nb.m{background:var(--bdim);color:var(--blue);border-color:var(--bborder);}
+  .wrap{padding:18px;max-width:740px;margin:0 auto;}
+  .pane{display:none;}.pane.active{display:block;}
+  .sid{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}
+  .sid.s{color:var(--accent);}.sid.m{color:var(--blue);}
+  .stitle{font-size:19px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px;}
+  .sclient{font-size:12px;color:var(--muted);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border);line-height:1.5;}
+  .anch{display:inline-block;font-size:11px;font-weight:500;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rs);padding:4px 10px;color:var(--muted);margin-bottom:10px;}
+  .anch span{color:var(--accent);}
+  .bo{background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r);padding:9px 13px;margin-bottom:12px;font-size:12px;color:var(--muted);}
+  .bo strong{color:var(--accent);font-weight:500;}
+  .slp{background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--r);padding:9px 13px;margin-bottom:12px;font-size:12px;color:var(--muted);line-height:1.5;}
+  .slp strong{color:var(--text);font-weight:500;}
+  .glb{background:var(--odim);border:1px solid rgba(224,124,58,.2);border-radius:var(--r);padding:9px 13px;margin-bottom:12px;font-size:12px;color:var(--orange);line-height:1.5;}
+  .mvb{background:var(--bdim);border:1px solid var(--bborder);border-radius:var(--r);padding:9px 13px;margin-bottom:14px;font-size:12px;color:var(--blue);line-height:1.5;}
+  .sl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:16px 0 7px;padding-bottom:4px;border-bottom:1px solid var(--border);}
+  .step{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin-bottom:6px;}
+  .sh{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .sn{width:21px;height:21px;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sn.s{background:var(--adim);color:var(--accent);border:1px solid var(--aborder);}
+  .sn.m{background:var(--bdim);color:var(--blue);border:1px solid var(--bborder);}
+  .st{font-size:13px;font-weight:500;color:var(--text);flex:1;}
+  .badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px;flex-shrink:0;}
+  .bsv{background:var(--gdim);color:var(--green);border:1px solid rgba(76,175,125,.2);}
+  .bw{background:var(--odim);color:var(--orange);border:1px solid rgba(224,124,58,.2);}
+  .bc{background:var(--rdim);color:var(--red);border:1px solid rgba(224,92,92,.2);}
+  .bu{background:rgba(155,127,232,.12);color:var(--purple);border:1px solid rgba(155,127,232,.25);}
+  .mp{font-family:var(--mono);font-size:11px;color:var(--muted);background:#111;border:1px solid var(--border);border-radius:var(--rs);padding:5px 9px;margin:3px 0;line-height:1.75;}
+  .mp .v{color:var(--accent);font-weight:600;}
+  .mp .vm{color:var(--blue);font-weight:600;}
+  .mp .u{color:var(--purple);font-weight:600;}
+  .note{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5;}
+  .wn{font-size:12px;color:var(--orange);background:var(--odim);border:1px solid rgba(224,124,58,.2);border-radius:var(--rs);padding:5px 9px;margin-top:4px;line-height:1.5;}
+  .un{font-size:12px;color:var(--purple);background:rgba(155,127,232,.08);border:1px solid rgba(155,127,232,.2);border-radius:var(--rs);padding:5px 9px;margin-top:4px;line-height:1.5;}
+  .info{font-size:12px;color:var(--blue);background:var(--bdim);border:1px solid var(--bborder);border-radius:var(--rs);padding:5px 9px;margin-top:4px;line-height:1.5;}
+  .sum{background:#111;border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin-top:12px;}
+  .sr{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px;gap:10px;}
+  .sr:last-child{border-bottom:none;}
+  .sk{color:var(--muted);}
+  .sv{color:var(--accent);font-family:var(--mono);font-size:11px;text-align:right;}
+  .sv.m{color:var(--blue);}
+  @media(max-width:480px){.hdr{padding:11px 13px;}.wrap{padding:13px;}h1{font-size:14px;}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hrow"><span class="cb">GFX 100s II</span><h1>All 12 Custom Slots — Build Guide</h1><span class="vb">v3 — final audit</span></div>
+  <div class="nav">
+    <button class="nb s" onclick="sw('s1',this)">C1 Tripod</button>
+    <button class="nb" onclick="sw('s2',this)">C2 Bracket</button>
+    <button class="nb" onclick="sw('s3',this)">C3 Action</button>
+    <button class="nb" onclick="sw('s4',this)">C4 PixShift</button>
+    <button class="nb" onclick="sw('s5',this)">C5 Portrait</button>
+    <button class="nb" onclick="sw('s6',this)">C6 LowLight</button>
+    <button class="nb" onclick="sw('m4',this)">C4 F-Log2 ★</button>
+    <button class="nb" onclick="sw('m1',this)">C1 Run-Gun</button>
+    <button class="nb" onclick="sw('m2',this)">C2 SlowMo</button>
+    <button class="nb" onclick="sw('m3',this)">C3 Event</button>
+    <button class="nb" onclick="sw('m5',this)">C5 Corp</button>
+    <button class="nb" onclick="sw('m6',this)">C6 DarkStg</button>
+  </div>
+</div>
+<div class="wrap">
+
+<!-- ===== NOTES THAT APPLY TO ALL SLOTS ===== -->
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:16px;">
+  <div class="sl" style="margin-top:0;">Notes that apply to every slot</div>
+  <div class="note" style="margin-top:6px;"><strong style="color:var(--text);">Custom name display:</strong> The custom slot name you assign (TRIPOD, BRACKET, etc.) is stored in the camera but does NOT appear in any shooting display. The camera always shows C1, C2, etc. on both the e-ink top screen and rear LCD. The name is only visible inside Menu → I.Q. → Edit/Save Custom Setting.</div>
+  <div class="note" style="margin-top:8px;"><strong style="color:var(--text);">Sleep behavior:</strong> When Auto Update is Disabled, the camera reverts to saved slot settings on sleep. Temporary in-field adjustments (aperture, ISO, exposure comp) reset on sleep. This is by design — not a malfunction. Re-save the slot if you want changes to persist.</div>
+  <div class="note" style="margin-top:8px;"><strong style="color:var(--text);">Self-timer:</strong> Set Save Self-Timer Setting to OFF globally. Turn the self-timer on manually when you mount the tripod in C1 or C4, and off when you move away. This prevents timer bleed into action and event slots.</div>
+  <div class="note" style="margin-top:8px;"><strong style="color:var(--text);">Performance Boost:</strong> Global only — cannot be saved per slot. Default: AF Priority Normal. Change manually to AF Priority Low Light before PSO or dark stage shoots (C6 Still). Assign to a function button for fast field access.</div>
+  <div class="note" style="margin-top:8px;"><strong style="color:var(--text);">Purple labels</strong> = menu paths documented but not yet physically verified on your camera. Confirm when you first build that slot and report back for correction if needed.</div>
+</div>
+
+<!-- ===== C1 STILL ===== -->
+<div id="pane-s1" class="pane active">
+  <div class="sid s">C1 Still</div><div class="stitle">Tripod landscape</div>
+  <div class="sclient">Desert, wilderness, any static scene. Passion projects, stock, Audia Cup course scenics. Build this first — C2 and C4 copy from it.</div>
+  <div class="anch">Memory anchor: <span>C1 = one shot, max quality. When in doubt, come here first.</span></div>
+  <div class="bo">Build order: <strong>Fresh from scratch. This is the still master slot.</strong></div>
+
+  <div class="sl">Pre-build</div>
+  <div class="step"><div class="sh"><div class="sn s">1</div><div class="st">Mode dial → C1</div></div><div class="mp">Mode dial → <span class="v">C1</span></div><div class="note">Always be in the target slot before configuring.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">2</div><div class="st">Enable Auto Update temporarily</div></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Enabled</span></div><div class="note">Tracks your changes as you configure. Disable immediately after saving.</div></div>
+
+  <div class="sl">Configure</div>
+  <div class="step"><div class="sh"><div class="sn s">3</div><div class="st">Mode → Manual</div></div><div class="mp">Mode dial → <span class="v">M</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">4</div><div class="st">ISO → 80</div></div><div class="mp">ISO button or front command dial → <span class="v">80</span></div><div class="note">Lowest native ISO. Maximum dynamic range, minimum noise.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">5</div><div class="st">File format → RAW lossless 14-bit</div></div><div class="mp">Menu → I.Q. → RAW recording → Lossless → <span class="v">14-bit</span></div><div class="note">Real-world identical quality to 16-bit on this sensor. 16-bit only justified in C4 Still Pixel Shift.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">6</div><div class="st">White balance → 5600K fixed</div></div><div class="mp">Menu → I.Q. → White balance → K → <span class="v">5600</span></div><div class="note">Fixed Kelvin prevents AWB going warm at golden hour. Fully adjustable in post from RAW.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">7</div><div class="st">Long exposure NR → OFF</div></div><div class="mp">Menu → I.Q. → Long exposure NR → <span class="v">OFF</span></div><div class="note">Handle in Lightroom with full control.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">8</div><div class="st">Self-timer → 2 sec</div></div><div class="mp">Menu → Shooting setting → Self-timer → <span class="v">2 sec</span></div><div class="mp">Menu → Shooting setting → Save self-timer setting → <span class="v">OFF</span></div><div class="note">2 sec eliminates shutter-press vibration at 102MP. Save self-timer OFF prevents timer bleeding into other slots when you switch away from C1. Turn the timer on manually when you mount the tripod, off when you move away.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">9</div><div class="st">Shutter type → Electronic</div></div><div class="mp">Menu → Shooting setting → Shutter type → <span class="v">Electronic shutter</span></div><div class="note">Silent. Zero mechanical vibration. Ideal for tripod work.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">10</div><div class="st">AF mode → Single point · 425 points</div></div><div class="mp">Menu → AF/MF setting → AF mode → <span class="v">Single point</span></div><div class="mp">Menu → AF/MF setting → Number of focus points → <span class="v">425 points</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">11</div><div class="st">IS mode → OFF</div></div><div class="mp">Menu → Shooting setting → IS mode → <span class="v">OFF</span></div><div class="note">IS off on tripod. Active IS introduces micro-jitter at 102MP resolution.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">12</div><div class="st">Dynamic range → DR100%</div></div><div class="mp">Menu → I.Q. → Dynamic range → <span class="v">DR100%</span></div><div class="note">Keeps base ISO at 80. DR200/400 forces minimum ISO up.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">13</div><div class="st">Face/Eye detection → OFF</div></div><div class="mp">Menu → AF/MF setting → Face/eye detection setting → <span class="v">OFF</span></div><div class="note">Leaving it on greys out Photometry selection.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn s">14</div><div class="st">Save to C1</div><span class="badge bsv">Save</span></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C1</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn s">15</div><div class="st">Name → TRIPOD</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C1</span> → Edit custom name → <span class="v">TRIPOD</span></div><div class="note">Name is stored in the camera but not shown in shooting displays — only visible inside Edit/Save menu.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">16</div><div class="st">Disable Auto Update</div><span class="badge bc">Critical</span></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Disabled</span></div><div class="note">Do immediately after every save. Red dot in Edit/Save menu = live settings differ from saved. That is correct, not an error.</div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C1 Still — confirmed settings</div>
+    <div class="sr"><span class="sk">Mode</span><span class="sv">Manual</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv">80 fixed</span></div>
+    <div class="sr"><span class="sk">File format</span><span class="sv">RAW lossless 14-bit</span></div>
+    <div class="sr"><span class="sk">White balance</span><span class="sv">5600K fixed</span></div>
+    <div class="sr"><span class="sk">Long exp. NR</span><span class="sv">OFF</span></div>
+    <div class="sr"><span class="sk">Self-timer</span><span class="sv">2 sec (set manually per session)</span></div>
+    <div class="sr"><span class="sk">Save self-timer</span><span class="sv">OFF</span></div>
+    <div class="sr"><span class="sk">Shutter type</span><span class="sv">Electronic</span></div>
+    <div class="sr"><span class="sk">AF mode</span><span class="sv">Single point · 425 pts</span></div>
+    <div class="sr"><span class="sk">IS mode</span><span class="sv">OFF</span></div>
+    <div class="sr"><span class="sk">Dynamic range</span><span class="sv">DR100%</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv">TRIPOD</span></div>
+  </div>
+</div>
+
+<!-- ===== C2 STILL ===== -->
+<div id="pane-s2" class="pane">
+  <div class="sid s">C2 Still</div><div class="stitle">Bracket / HDR</div>
+  <div class="sclient">High-contrast scenes where a single exposure cannot capture sky and foreground. Desert midday, backlit landscapes. Merge in Lightroom HDR or keep best single frame.</div>
+  <div class="anch">Memory anchor: <span>C2 = C1 but three shots. One dial click right from TRIPOD.</span></div>
+  <div class="bo">Build order: <strong>Copy C1 into C2. Change drive mode and turn off self-timer.</strong></div>
+
+  <div class="sl">Copy C1 into C2</div>
+  <div class="step"><div class="sh"><div class="sn s">1</div><div class="st">Copy C1 → C2</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C1</span> → Copy → select <span class="v">C2</span> → OK</div><div class="wn">Overwrites all C2 settings with no undo. Confirm C2 is safe to overwrite.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">2</div><div class="st">Mode dial → C2</div></div><div class="mp">Mode dial → <span class="v">C2</span></div></div>
+
+  <div class="sl">Change what differs from C1</div>
+  <div class="step"><div class="sh"><div class="sn s">3</div><div class="st">Self-timer → OFF</div><span class="badge bw">Important</span></div><div class="mp">Menu → Shooting setting → Self-timer → <span class="v">OFF</span></div><div class="note">C2 copies the 2-sec timer from C1. Turn it OFF here. For bracket sequences on a tripod, the timer adds unnecessary delay — the 3 frames fire back-to-back continuously once triggered. No timer needed.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">4</div><div class="st">Drive → AE bracket</div></div><div class="mp">Drive button → <span class="v">AE BKT</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">5</div><div class="st">Bracket — frames and step</div></div><div class="mp">Menu → Shooting setting → AE BKT setting → Frames/step setting → <span class="v">±3 frames, 2 step</span></div><div class="note">Shoots 3 frames: 0 EV, −2 EV, +2 EV. Covers 4 stops of dynamic range.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">6</div><div class="st">Bracket — continuous fire</div></div><div class="mp">Menu → Shooting setting → AE BKT setting → 1 frame/continuous → <span class="v">Continuous</span></div><div class="note">All 3 frames fire on a single shutter press. Better alignment when merging in Lightroom HDR.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn s">7</div><div class="st">Save to C2</div><span class="badge bsv">Save</span></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C2</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn s">8</div><div class="st">Name → BRACKET</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C2</span> → Edit custom name → <span class="v">BRACKET</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">9</div><div class="st">Disable Auto Update</div><span class="badge bc">Critical</span></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C2 Still — changed settings (all others from C1)</div>
+    <div class="sr"><span class="sk">Self-timer</span><span class="sv">OFF</span></div>
+    <div class="sr"><span class="sk">Drive</span><span class="sv">AE BKT · ±3 frames · 2 stop · Continuous</span></div>
+    <div class="sr"><span class="sk">File format</span><span class="sv">RAW lossless 14-bit (from C1)</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv">BRACKET</span></div>
+  </div>
+</div>
+
+<!-- ===== C3 STILL ===== -->
+<div id="pane-s3" class="pane">
+  <div class="sid s">C3 Still</div><div class="stitle">Outdoor event / action</div>
+  <div class="sclient">Audia Cup golf, WPP Christmas party, any outdoor event with moving subjects. Speed and keeper rate are the priority over maximum quality.</div>
+  <div class="anch">Memory anchor: <span>C3 = the action slot. 7fps, mechanical shutter, AF-C.</span></div>
+  <div class="bo">Build order: <strong>Build fresh. Too many settings differ from C1 to copy usefully.</strong></div>
+  <div class="glb">Performance Boost is global — cannot be saved to this slot. Set globally to AF Priority Normal before an event shoot.</div>
+
+  <div class="sl">Pre-build</div>
+  <div class="step"><div class="sh"><div class="sn s">1</div><div class="st">Mode dial → C3 · Enable Auto Update</div></div><div class="mp">Mode dial → <span class="v">C3</span></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Enabled</span></div></div>
+
+  <div class="sl">Configure</div>
+  <div class="step"><div class="sh"><div class="sn s">2</div><div class="st">Self-timer → OFF</div></div><div class="mp">Menu → Shooting setting → Self-timer → <span class="v">OFF</span></div><div class="note">No timer for burst shooting. Confirm this is OFF before saving.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">3</div><div class="st">Mode → Aperture Priority</div></div><div class="mp">Mode dial → <span class="v">A</span></div><div class="note">Camera auto-adjusts shutter as outdoor light changes through the day.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">4</div><div class="st">Aperture → f/5.6</div></div><div class="mp">Aperture ring → <span class="v">f/5.6</span></div><div class="note">Speed with enough depth for group shots. Adjust to f/8 if more depth needed.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">5</div><div class="st">ISO → Auto 80–1600 · min shutter 1/500s</div></div><div class="mp">Menu → I.Q. → ISO → <span class="v">ISO AUTO</span></div><div class="mp">Menu → Shooting setting → ISO auto setting → Max sensitivity → <span class="v">ISO 1600</span></div><div class="mp">Menu → Shooting setting → ISO auto setting → Min shutter speed → <span class="v">1/500s</span></div><div class="wn">Important: In Aperture Priority, if the ISO ceiling of 1600 is reached and the scene is still underexposed, the camera will drop below the 1/500s minimum shutter speed rather than underexpose. This is normal Fujifilm behavior. If you see motion blur in dark conditions, raise the ISO ceiling or switch to Manual.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">6</div><div class="st">File format → RAW lossless 14-bit</div></div><div class="mp">Menu → I.Q. → RAW recording → Lossless → <span class="v">14-bit</span></div><div class="note">16-bit is unavailable in CH High Speed Burst mode regardless of this setting. Smaller files also clear the buffer faster at 7fps.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">7</div><div class="st">Drive → CH high speed burst</div></div><div class="mp">Drive button → <span class="v">CH High Speed Burst</span></div><div class="note">7fps — maximum burst speed on the GFX 100s II.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">8</div><div class="st">Shutter type → Mechanical</div></div><div class="mp">Menu → Shooting setting → Shutter type → <span class="v">Mechanical shutter</span></div><div class="note">Prevents rolling shutter distortion on fast-moving subjects like golf swings.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">9</div><div class="st">Focus mode → AF-C</div></div><div class="mp">Focus mode selector on body → <span class="v">C</span></div><div class="note">Continuous AF tracks subject movement between burst frames.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">10</div><div class="st">AF mode → Zone</div></div><div class="mp">Menu → AF/MF setting → AF mode → <span class="v">Zone</span></div><div class="note">Defined tracking area. Better than Wide/Tracking in crowded event scenes where the camera might grab the wrong subject.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">11</div><div class="st">Face/Eye detection → ON</div></div><div class="mp">Menu → AF/MF setting → Face/eye detection setting → <span class="v">Face and eye detection ON</span></div><div class="note">Enabling this greys out Photometry. Set metering to Multi after enabling if needed.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">12</div><div class="st">White balance → AWB</div></div><div class="mp">Menu → I.Q. → White balance → <span class="v">AWB</span></div><div class="note">Outdoor light changes throughout an event day. Fully adjustable in post from RAW.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">13</div><div class="st">IS mode → Shooting only</div></div><div class="mp">Menu → Shooting setting → IS mode → <span class="v">Shooting only</span></div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn s">14</div><div class="st">Save to C3</div><span class="badge bsv">Save</span></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C3</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn s">15</div><div class="st">Name → ACTION</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C3</span> → Edit custom name → <span class="v">ACTION</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">16</div><div class="st">Disable Auto Update</div><span class="badge bc">Critical</span></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C3 Still — confirmed settings</div>
+    <div class="sr"><span class="sk">Self-timer</span><span class="sv">OFF</span></div>
+    <div class="sr"><span class="sk">Mode</span><span class="sv">Aperture Priority</span></div>
+    <div class="sr"><span class="sk">Aperture</span><span class="sv">f/5.6</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv">Auto 80–1600 · min 1/500s*</span></div>
+    <div class="sr"><span class="sk">File format</span><span class="sv">RAW lossless 14-bit</span></div>
+    <div class="sr"><span class="sk">Drive</span><span class="sv">CH High Speed Burst · 7fps</span></div>
+    <div class="sr"><span class="sk">Shutter type</span><span class="sv">Mechanical</span></div>
+    <div class="sr"><span class="sk">Focus mode</span><span class="sv">AF-C</span></div>
+    <div class="sr"><span class="sk">AF mode</span><span class="sv">Zone</span></div>
+    <div class="sr"><span class="sk">Face/Eye</span><span class="sv">ON</span></div>
+    <div class="sr"><span class="sk">White balance</span><span class="sv">AWB</span></div>
+    <div class="sr"><span class="sk">IS mode</span><span class="sv">Shooting only</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv">ACTION</span></div>
+  </div>
+  <div class="note" style="margin-top:6px;">* Min shutter 1/500s will be overridden if ISO ceiling is reached in very dark conditions. See step 5 warning.</div>
+</div>
+
+<!-- ===== C4 STILL ===== -->
+<div id="pane-s4" class="pane">
+  <div class="sid s">C4 Still</div><div class="stitle">Pixel shift</div>
+  <div class="sclient">Completely static scenes only — architecture, product, fine art landscapes with zero movement. Up to 400MP. Requires Fujifilm Pixel Shift Combiner in post. Do not use if anything in the frame moves.</div>
+  <div class="anch">Memory anchor: <span>C4 Still = maximum output. Nothing moves. Everything on tripod.</span></div>
+  <div class="bo">Build order: <strong>Copy C1 into C4. Change file format to 16-bit and drive to Pixel Shift. Self-timer 2 sec inherited from C1 — keep it, it is appropriate here.</strong></div>
+
+  <div class="sl">Copy C1 into C4</div>
+  <div class="step"><div class="sh"><div class="sn s">1</div><div class="st">Copy C1 → C4</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C1</span> → Copy → select <span class="v">C4</span> → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn s">2</div><div class="st">Mode dial → C4</div></div><div class="mp">Mode dial → <span class="v">C4</span></div></div>
+
+  <div class="sl">Change what differs from C1</div>
+  <div class="step"><div class="sh"><div class="sn s">3</div><div class="st">Self-timer — keep 2 sec from C1</div></div><div class="info">The 2-second timer inherited from C1 is correct and intentional for Pixel Shift. The delay before the sequence starts allows any camera vibration from the shutter press to settle before the 16-frame sequence begins. Do not change this.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">4</div><div class="st">File format → RAW lossless 16-bit</div></div><div class="mp">Menu → I.Q. → RAW recording → Lossless → <span class="v">16-bit</span></div><div class="note">16-bit is appropriate and justified here. Pixel Shift single-frame static mode is the one case on this sensor where 16-bit has merit. Also required for Pixel Shift drive to function correctly.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">5</div><div class="st">Drive → Pixel Shift Multi-Shot</div></div><div class="mp">Drive button → <span class="v">Pixel Shift Multi-Shot</span></div><div class="note">Choose 4-frame (Accurate Color, 102MP) or 16-frame (High Resolution + Accurate Color, 400MP). 16-frame needs a perfectly still scene — even slight wind in foliage or a passing cloud ruins the sequence.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">6</div><div class="st">Pixel Shift interval</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Shooting setting → <span class="u">Pixel Shift interval</span> → <span class="v">Shortest interval</span></div><div class="un">Path documented but not physically verified on your camera. Look inside Shooting setting menu for Pixel Shift options.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn s">7</div><div class="st">Save to C4</div><span class="badge bsv">Save</span></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C4</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn s">8</div><div class="st">Name → PIXSHIFT</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C4</span> → Edit custom name → <span class="v">PIXSHIFT</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">9</div><div class="st">Disable Auto Update</div><span class="badge bc">Critical</span></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C4 Still — changed settings (all others from C1)</div>
+    <div class="sr"><span class="sk">Self-timer</span><span class="sv">2 sec (inherited from C1 — intentional)</span></div>
+    <div class="sr"><span class="sk">File format</span><span class="sv">RAW lossless 16-bit</span></div>
+    <div class="sr"><span class="sk">Drive</span><span class="sv">Pixel Shift Multi-Shot</span></div>
+    <div class="sr"><span class="sk">IS mode</span><span class="sv">OFF (from C1)</span></div>
+    <div class="sr"><span class="sk">Post processing</span><span class="sv">Fujifilm Pixel Shift Combiner required</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv">PIXSHIFT</span></div>
+  </div>
+</div>
+
+<!-- ===== C5 STILL ===== -->
+<div id="pane-s5" class="pane">
+  <div class="sid s">C5 Still</div><div class="stitle">Headshots / portraits</div>
+  <div class="sclient">Carson Wealth headshots, controlled studio or office environment. Subject stationary. Shallow depth of field is a key differentiator of medium format at this aperture.</div>
+  <div class="anch">Memory anchor: <span>C5 = people, controlled environment. Face/Eye AF earns its keep here.</span></div>
+  <div class="bo">Build order: <strong>Build fresh. Settings differ too much from C1 to copy usefully.</strong></div>
+
+  <div class="sl">Pre-build</div>
+  <div class="step"><div class="sh"><div class="sn s">1</div><div class="st">Mode dial → C5 · Enable Auto Update</div></div><div class="mp">Mode dial → <span class="v">C5</span></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Enabled</span></div></div>
+
+  <div class="sl">Configure</div>
+  <div class="step"><div class="sh"><div class="sn s">2</div><div class="st">Self-timer → OFF</div></div><div class="mp">Menu → Shooting setting → Self-timer → <span class="v">OFF</span></div><div class="note">No timer needed for headshots. Confirm OFF before saving.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">3</div><div class="st">Mode → Aperture Priority</div></div><div class="mp">Mode dial → <span class="v">A</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">4</div><div class="st">Aperture → f/4</div></div><div class="mp">Aperture ring → <span class="v">f/4</span></div><div class="note">Wide open for shallow depth of field and medium format subject separation. Adjust to f/5.6 for group headshots.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">5</div><div class="st">ISO → Auto 80–800</div></div><div class="mp">Menu → I.Q. → ISO → <span class="v">ISO AUTO</span></div><div class="mp">Menu → Shooting setting → ISO auto setting → Max sensitivity → <span class="v">ISO 800</span></div><div class="note">Tight ceiling — controlled interior lighting. ISO 800 is very clean for headshots on this sensor.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">6</div><div class="st">File format → RAW lossless 14-bit</div></div><div class="mp">Menu → I.Q. → RAW recording → Lossless → <span class="v">14-bit</span></div><div class="note">Fully sufficient for client headshot deliverables. Skin tone latitude in post is excellent at 14-bit.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">7</div><div class="st">White balance → AWB</div></div><div class="mp">Menu → I.Q. → White balance → <span class="v">AWB</span></div><div class="note">Controlled interior lighting is consistent shot to shot.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">8</div><div class="st">Drive → Single</div></div><div class="mp">Drive button → <span class="v">Single</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">9</div><div class="st">Shutter type → Electronic</div></div><div class="mp">Menu → Shooting setting → Shutter type → <span class="v">Electronic shutter</span></div><div class="note">Silent — less disruptive to the subject in a studio or office setting.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">10</div><div class="st">AF mode → Single point</div></div><div class="mp">Menu → AF/MF setting → AF mode → <span class="v">Single point</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">11</div><div class="st">Face/Eye detection → ON</div></div><div class="mp">Menu → AF/MF setting → Face/eye detection setting → <span class="v">Face and eye detection ON</span></div><div class="note">Most reliable use case for this feature on the GFX. Locks consistently to the eye across a headshot session.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">12</div><div class="st">Long exposure NR → OFF</div></div><div class="mp">Menu → I.Q. → Long exposure NR → <span class="v">OFF</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">13</div><div class="st">IS mode → Shooting only</div></div><div class="mp">Menu → Shooting setting → IS mode → <span class="v">Shooting only</span></div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn s">14</div><div class="st">Save to C5</div><span class="badge bsv">Save</span></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C5</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn s">15</div><div class="st">Name → PORTRAIT</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C5</span> → Edit custom name → <span class="v">PORTRAIT</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">16</div><div class="st">Disable Auto Update</div><span class="badge bc">Critical</span></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C5 Still — confirmed settings</div>
+    <div class="sr"><span class="sk">Self-timer</span><span class="sv">OFF</span></div>
+    <div class="sr"><span class="sk">Mode</span><span class="sv">Aperture Priority</span></div>
+    <div class="sr"><span class="sk">Aperture</span><span class="sv">f/4</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv">Auto 80–800</span></div>
+    <div class="sr"><span class="sk">File format</span><span class="sv">RAW lossless 14-bit</span></div>
+    <div class="sr"><span class="sk">White balance</span><span class="sv">AWB</span></div>
+    <div class="sr"><span class="sk">Drive</span><span class="sv">Single</span></div>
+    <div class="sr"><span class="sk">Shutter type</span><span class="sv">Electronic</span></div>
+    <div class="sr"><span class="sk">AF mode</span><span class="sv">Single point</span></div>
+    <div class="sr"><span class="sk">Face/Eye</span><span class="sv">ON</span></div>
+    <div class="sr"><span class="sk">IS mode</span><span class="sv">Shooting only</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv">PORTRAIT</span></div>
+  </div>
+</div>
+
+<!-- ===== C6 STILL ===== -->
+<div id="pane-s6" class="pane">
+  <div class="sid s">C6 Still</div><div class="stitle">Low light / performance</div>
+  <div class="sclient">Pittsburgh Symphony Orchestra, no-flash performance venues, evening events. Maximum light gathering. Mechanical shutter critical — stage lighting causes banding with electronic shutter.</div>
+  <div class="anch">Memory anchor: <span>C6 = dark stage. Mechanical shutter always. ISO ceiling wide open.</span></div>
+  <div class="bo">Build order: <strong>Copy C5 into C6. Change ISO ceiling, file format, shutter type, AF mode.</strong></div>
+  <div class="glb">Performance Boost is global — cannot be saved to this slot. Before PSO or any dark stage shoot, manually change Performance Boost to AF Priority Low Light. Assign Performance Boost to a function button for fast field access.</div>
+
+  <div class="sl">Copy C5 into C6</div>
+  <div class="step"><div class="sh"><div class="sn s">1</div><div class="st">Copy C5 → C6</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C5</span> → Copy → select <span class="v">C6</span> → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn s">2</div><div class="st">Mode dial → C6</div></div><div class="mp">Mode dial → <span class="v">C6</span></div></div>
+
+  <div class="sl">Change what differs from C5</div>
+  <div class="step"><div class="sh"><div class="sn s">3</div><div class="st">Self-timer — confirm OFF</div></div><div class="mp">Menu → Shooting setting → Self-timer → <span class="v">OFF</span></div><div class="note">Inherited from C5 which should already be OFF. Confirm before saving.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">4</div><div class="st">ISO → Auto 80–6400 · min 1/250s</div></div><div class="mp">Menu → Shooting setting → ISO auto setting → Max sensitivity → <span class="v">ISO 6400</span></div><div class="mp">Menu → Shooting setting → ISO auto setting → Min shutter speed → <span class="v">1/250s</span></div><div class="note">ISO 6400 on this sensor with Lightroom AI denoise is very usable. 1/250s freezes performers without blur.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">5</div><div class="st">File format → RAW lossless 14-bit</div></div><div class="mp">Menu → I.Q. → RAW recording → Lossless → <span class="v">14-bit</span></div><div class="note">At ISO 3200–6400 noise dominates before bit depth matters. 14-bit is fully sufficient here.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">6</div><div class="st">Shutter type → Mechanical</div></div><div class="mp">Menu → Shooting setting → Shutter type → <span class="v">Mechanical shutter</span></div><div class="wn">Most important setting in this slot. Electronic shutter causes banding under stage LED, fluorescent, and discharge lighting. Mechanical shutter is immune. Note: a separate Flicker Reduction setting exists at Menu → Shooting setting → Flicker reduction → ON, but enabling it also forces mechanical shutter (which you already have) and slows capture — limited additional benefit in C6.</div></div>
+  <div class="step"><div class="sh"><div class="sn s">7</div><div class="st">AF mode → Wide/Tracking</div></div><div class="mp">Menu → AF/MF setting → AF mode → <span class="v">Wide/Tracking</span></div><div class="note">In low light with moving performers, Wide/Tracking gives the AF system the largest possible area. Touch subject on LCD to initiate tracking.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn s">8</div><div class="st">Save to C6</div><span class="badge bsv">Save</span></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C6</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn s">9</div><div class="st">Name → LOWLIGHT</div></div><div class="mp">Menu → I.Q. → Edit/save custom setting → <span class="v">C6</span> → Edit custom name → <span class="v">LOWLIGHT</span></div></div>
+  <div class="step"><div class="sh"><div class="sn s">10</div><div class="st">Disable Auto Update</div><span class="badge bc">Critical</span></div><div class="mp">Menu → I.Q. → Auto update custom setting → <span class="v">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C6 Still — changed settings (others from C5)</div>
+    <div class="sr"><span class="sk">Self-timer</span><span class="sv">OFF (confirmed)</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv">Auto 80–6400 · min 1/250s</span></div>
+    <div class="sr"><span class="sk">File format</span><span class="sv">RAW lossless 14-bit</span></div>
+    <div class="sr"><span class="sk">Shutter type</span><span class="sv">Mechanical</span></div>
+    <div class="sr"><span class="sk">AF mode</span><span class="sv">Wide/Tracking</span></div>
+    <div class="sr"><span class="sk">Boost (global)</span><span class="sv">Set manually → AF Priority Low Light before PSO</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv">LOWLIGHT</span></div>
+  </div>
+</div>
+
+<!-- ===== C4 MOVIE ===== -->
+<div id="pane-m4" class="pane">
+  <div class="mvb">All movie slots: flip Movie/Still switch to Movie before any menu work. Menu path is Movie setting → Edit/Save — not I.Q. → Edit/Save. Movie Auto Update is separate from Still Auto Update — disable both independently. Build C4 Movie first — C3 and C6 Movie copy from it. ★ = build this one first.</div>
+  <div class="sid m">C4 Movie</div><div class="stitle">Primary grade / F-Log2</div>
+  <div class="sclient">Any shoot requiring maximum dynamic range and full grading control in DaVinci Resolve. Tomorrow's desert shoot. Primary client deliverable footage. Build this slot first among all movie slots.</div>
+  <div class="anch">Memory anchor: <span>C4 Movie = the serious video slot. Flat log. Grades in Resolve.</span></div>
+  <div class="bo">Build order: <strong>Fresh from scratch. This is the movie master — C3 and C6 copy from it.</strong></div>
+
+  <div class="sl">Pre-build</div>
+  <div class="step"><div class="sh"><div class="sn m">1</div><div class="st">Movie switch → Movie · Mode dial → C4 · Enable Auto Update</div></div><div class="mp">Physical switch → <span class="vm">Movie</span></div><div class="mp">Mode dial → <span class="vm">C4</span></div><div class="mp">Menu → Movie setting → Auto update custom setting → <span class="vm">Enabled</span></div></div>
+
+  <div class="sl">Configure</div>
+  <div class="step"><div class="sh"><div class="sn m">2</div><div class="st">Movie mode → 4K 30P</div></div><div class="mp">Menu → Movie setting → Movie mode → <span class="vm">4K 16:9 / 30P</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">3</div><div class="st">Codec → H.265 MOV 4:2:2</div></div><div class="mp">Menu → Movie setting → Media rec setting → <span class="vm">H.265 MOV / 422</span></div><div class="note">Highest internal quality. 10-bit 4:2:2 for maximum colour depth when grading F-Log2.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">4</div><div class="st">Color profile → F-Log2</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Movie setting → <span class="u">F-log recording</span> → <span class="vm">F-Log2</span></div><div class="un">F-log recording label not physically verified on your camera. May appear as Color Profile, Log Setting, or Film Simulation inside Movie setting. Look for F-Log2 as the selectable value.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">5</div><div class="st">ISO → 100 fixed</div></div><div class="mp">ISO → <span class="vm">100</span> (fixed, not Auto)</div><div class="note">ISO 80 is unavailable in video. 100 is the floor. Fixed ISO gives consistent noise floor across a sequence.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">6</div><div class="st">Shutter → 1/60s</div></div><div class="mp">Shutter → <span class="vm">1/60s</span></div><div class="note">180° rule at 30P. Desert conditions will over-expose — stack ND2x + CPL (~3.5 stops). Start aperture at f/8.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">7</div><div class="st">IS mode → IBIS/OIS</div></div><div class="mp">Menu → Movie setting → IS mode (movie) → <span class="vm">IBIS/OIS</span></div><div class="wn">Known firmware bug with GF 45-100mm in movie mode. Test IS before relying on it handheld. On tripod: set IS to OFF.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">8</div><div class="st">AF mode → Wide/Tracking</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Movie setting → <span class="u">Movie AF mode</span> → <span class="vm">Wide/Tracking</span></div><div class="un">Movie AF mode label not physically verified on your camera.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn m">9</div><div class="st">Save to C4 Movie</div><span class="badge bsv">Save</span></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C4</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">10</div><div class="st">Name → FLOG2</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C4</span> → Edit custom name → <span class="vm">FLOG2</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">11</div><div class="st">Disable Auto Update (Movie)</div><span class="badge bc">Critical</span></div><div class="mp">Menu → Movie setting → Auto update custom setting → <span class="vm">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C4 Movie — confirmed settings</div>
+    <div class="sr"><span class="sk">Resolution / FPS</span><span class="sv m">4K 16:9 / 30P</span></div>
+    <div class="sr"><span class="sk">Codec</span><span class="sv m">H.265 MOV 4:2:2</span></div>
+    <div class="sr"><span class="sk">Color profile</span><span class="sv m">F-Log2</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv m">100 fixed</span></div>
+    <div class="sr"><span class="sk">Shutter</span><span class="sv m">1/60s</span></div>
+    <div class="sr"><span class="sk">IS mode</span><span class="sv m">IBIS/OIS (test first · OFF on tripod)</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv m">FLOG2</span></div>
+  </div>
+</div>
+
+<!-- ===== C1 MOVIE ===== -->
+<div id="pane-m1" class="pane">
+  <div class="mvb">Movie/Still switch must be in Movie position. Path: Movie setting → Edit/Save. Build C4 Movie first — C5 Movie copies from C1 Movie.</div>
+  <div class="sid m">C1 Movie</div><div class="stitle">Handheld run-and-gun</div>
+  <div class="sclient">Fast-moving event coverage handheld. Eterna/Cinema baked-in — no grading needed, ship quickly. Audia Cup BTS, WPP candid, corporate event.</div>
+  <div class="anch">Memory anchor: <span>C1 Movie = grab and go. Baked look. Ship fast.</span></div>
+  <div class="bo">Build order: <strong>Build fresh. C5 Movie copies from this slot.</strong></div>
+
+  <div class="sl">Pre-build</div>
+  <div class="step"><div class="sh"><div class="sn m">1</div><div class="st">Movie switch → Movie · Mode dial → C1 · Enable Auto Update</div></div><div class="mp">Physical switch → <span class="vm">Movie</span></div><div class="mp">Mode dial → <span class="vm">C1</span></div><div class="mp">Menu → Movie setting → Auto update custom setting → <span class="vm">Enabled</span></div></div>
+
+  <div class="sl">Configure</div>
+  <div class="step"><div class="sh"><div class="sn m">2</div><div class="st">Movie mode → 4K 30P</div></div><div class="mp">Menu → Movie setting → Movie mode → <span class="vm">4K 16:9 / 30P</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">3</div><div class="st">Codec → H.265 MOV 4:2:2</div></div><div class="mp">Menu → Movie setting → Media rec setting → <span class="vm">H.265 MOV / 422</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">4</div><div class="st">Color profile → Eterna/Cinema</div></div><div class="mp">Menu → Movie setting → Film simulation → <span class="vm">Eterna/Cinema</span></div><div class="note">Low contrast, naturally desaturated. Delivers a usable cinematic look without grading. Best baked-in option for quick delivery.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">5</div><div class="st">ISO → Auto 100–3200</div><span class="badge bu">Unverified path</span></div><div class="mp">ISO → <span class="vm">ISO AUTO</span></div><div class="mp">Menu → Movie setting → <span class="u">ISO auto setting</span> → Max → <span class="vm">ISO 3200</span></div><div class="un">ISO auto setting label inside Movie setting not physically verified on your camera.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">6</div><div class="st">Shutter → 1/60s</div></div><div class="mp">Shutter → <span class="vm">1/60s</span></div><div class="note">180° rule at 30P. Use ND filters in bright outdoor conditions.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">7</div><div class="st">AF mode → Wide/Tracking · Face ON</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Movie setting → <span class="u">Movie AF mode</span> → <span class="vm">Wide/Tracking</span></div><div class="mp">Menu → AF/MF setting → Face/eye detection setting → <span class="vm">ON</span></div><div class="un">Movie AF mode label not physically verified on your camera.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">8</div><div class="st">IS mode → IBIS/OIS</div></div><div class="mp">Menu → Movie setting → IS mode (movie) → <span class="vm">IBIS/OIS</span></div><div class="wn">Known firmware bug with GF 45-100mm in movie mode. Test IS before relying on it handheld.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn m">9</div><div class="st">Save to C1 Movie</div><span class="badge bsv">Save</span></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C1</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">10</div><div class="st">Name → RUN-GUN</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C1</span> → Edit custom name → <span class="vm">RUN-GUN</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">11</div><div class="st">Disable Auto Update (Movie)</div><span class="badge bc">Critical</span></div><div class="mp">Menu → Movie setting → Auto update custom setting → <span class="vm">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C1 Movie — confirmed settings</div>
+    <div class="sr"><span class="sk">Resolution / FPS</span><span class="sv m">4K 16:9 / 30P</span></div>
+    <div class="sr"><span class="sk">Codec</span><span class="sv m">H.265 MOV 4:2:2</span></div>
+    <div class="sr"><span class="sk">Color profile</span><span class="sv m">Eterna/Cinema</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv m">Auto 100–3200</span></div>
+    <div class="sr"><span class="sk">Shutter</span><span class="sv m">1/60s</span></div>
+    <div class="sr"><span class="sk">AF mode</span><span class="sv m">Wide/Tracking · Face ON</span></div>
+    <div class="sr"><span class="sk">IS mode</span><span class="sv m">IBIS/OIS</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv m">RUN-GUN</span></div>
+  </div>
+</div>
+
+<!-- ===== C2 MOVIE ===== -->
+<div id="pane-m2" class="pane">
+  <div class="mvb">Movie/Still switch must be in Movie position. Path: Movie setting → Edit/Save.</div>
+  <div class="sid m">C2 Movie</div><div class="stitle">Slow motion B-roll</div>
+  <div class="sclient">Creative B-roll, landscape motion, event detail shots. Play back at 24P in edit for approximately 2.5x slow motion. The GFX 100s II offers 60P at 1080P only — not 4K. Hardware limitation.</div>
+  <div class="anch">Memory anchor: <span>C2 Movie = slow it down. 1080P only at 60P — not 4K.</span></div>
+  <div class="bo">Build order: <strong>Copy C1 Movie into C2 Movie. Change resolution, frame rate, shutter, ISO ceiling.</strong></div>
+
+  <div class="sl">Copy C1 Movie → C2 Movie</div>
+  <div class="step"><div class="sh"><div class="sn m">1</div><div class="st">Copy C1 → C2 (in Movie mode)</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C1</span> → Copy → select <span class="vm">C2</span> → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">2</div><div class="st">Mode dial → C2</div></div><div class="mp">Mode dial → <span class="vm">C2</span></div></div>
+
+  <div class="sl">Change what differs</div>
+  <div class="step"><div class="sh"><div class="sn m">3</div><div class="st">Movie mode → 1080P 60P</div></div><div class="mp">Menu → Movie setting → Movie mode → <span class="vm">Full HD 16:9 / 60P</span></div><div class="wn">GFX 100s II does not offer 4K at 60P. 60P is 1080P only — verified hardware limitation.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">4</div><div class="st">Shutter → 1/120s</div></div><div class="mp">Shutter → <span class="vm">1/120s</span></div><div class="note">180° rule at 60P. Requires ND filtering in bright outdoor conditions.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">5</div><div class="st">ISO → Auto 100–1600</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Movie setting → <span class="u">ISO auto setting</span> → Max → <span class="vm">ISO 1600</span></div><div class="un">ISO auto setting label inside Movie setting not physically verified on your camera.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn m">6</div><div class="st">Save to C2 Movie</div><span class="badge bsv">Save</span></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C2</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">7</div><div class="st">Name → SLOWMO</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C2</span> → Edit custom name → <span class="vm">SLOWMO</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">8</div><div class="st">Disable Auto Update (Movie)</div><span class="badge bc">Critical</span></div><div class="mp">Menu → Movie setting → Auto update custom setting → <span class="vm">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C2 Movie — changed settings (others from C1 Movie)</div>
+    <div class="sr"><span class="sk">Resolution / FPS</span><span class="sv m">1080P Full HD / 60P</span></div>
+    <div class="sr"><span class="sk">Shutter</span><span class="sv m">1/120s</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv m">Auto 100–1600</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv m">SLOWMO</span></div>
+  </div>
+</div>
+
+<!-- ===== C3 MOVIE ===== -->
+<div id="pane-m3" class="pane">
+  <div class="mvb">Movie/Still switch must be in Movie position. Build C4 Movie first — this slot copies from it.</div>
+  <div class="sid m">C3 Movie</div><div class="stitle">Outdoor event video</div>
+  <div class="sclient">Audia Cup documentary footage, WPP Christmas event video, outdoor corporate. Cinematic 24P with F-Log2 for full grading control in DaVinci Resolve.</div>
+  <div class="anch">Memory anchor: <span>C3 Movie = outdoor cinematic. 24P + F-Log2. Grade in Resolve.</span></div>
+  <div class="bo">Build order: <strong>Copy C4 Movie into C3 Movie. Change frame rate to 24P and shutter to 1/50s.</strong></div>
+
+  <div class="sl">Copy C4 Movie → C3 Movie</div>
+  <div class="step"><div class="sh"><div class="sn m">1</div><div class="st">Copy C4 → C3 (in Movie mode)</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C4</span> → Copy → select <span class="vm">C3</span> → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">2</div><div class="st">Mode dial → C3</div></div><div class="mp">Mode dial → <span class="vm">C3</span></div></div>
+
+  <div class="sl">Change what differs from C4 Movie</div>
+  <div class="step"><div class="sh"><div class="sn m">3</div><div class="st">Movie mode → 4K 24P</div></div><div class="mp">Menu → Movie setting → Movie mode → <span class="vm">4K 16:9 / 24P</span></div><div class="note">24P is the standard cinematic frame rate. The film look Audia Cup documentary calls for.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">4</div><div class="st">Shutter → 1/50s</div></div><div class="mp">Shutter → <span class="vm">1/50s</span></div><div class="note">180° rule at 24P. Stack ND2x + CPL (~3.5 stops) for outdoor bright light.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">5</div><div class="st">ISO → Auto 100–1600</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Movie setting → <span class="u">ISO auto setting</span> → Max → <span class="vm">ISO 1600</span></div><div class="un">ISO auto setting label inside Movie setting not physically verified on your camera.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn m">6</div><div class="st">Save to C3 Movie</div><span class="badge bsv">Save</span></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C3</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">7</div><div class="st">Name → EVENT</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C3</span> → Edit custom name → <span class="vm">EVENT</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">8</div><div class="st">Disable Auto Update (Movie)</div><span class="badge bc">Critical</span></div><div class="mp">Menu → Movie setting → Auto update custom setting → <span class="vm">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C3 Movie — changed settings (others from C4 Movie)</div>
+    <div class="sr"><span class="sk">Resolution / FPS</span><span class="sv m">4K 16:9 / 24P</span></div>
+    <div class="sr"><span class="sk">Shutter</span><span class="sv m">1/50s</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv m">Auto 100–1600</span></div>
+    <div class="sr"><span class="sk">Color profile</span><span class="sv m">F-Log2 (from C4)</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv m">EVENT</span></div>
+  </div>
+</div>
+
+<!-- ===== C5 MOVIE ===== -->
+<div id="pane-m5" class="pane">
+  <div class="mvb">Movie/Still switch must be in Movie position. Path: Movie setting → Edit/Save. Build C1 Movie first — this slot copies from it.</div>
+  <div class="sid m">C5 Movie</div><div class="stitle">Corporate / interview</div>
+  <div class="sclient">Carson Wealth testimonials, educational videos, sit-down interview setups. Camera on tripod. Controlled interior. Baked Eterna/Cinema for faster client delivery — no grading required.</div>
+  <div class="anch">Memory anchor: <span>C5 Movie = sit-down interview. On sticks. IS OFF. Quick delivery.</span></div>
+  <div class="bo">Build order: <strong>Copy C1 Movie into C5 Movie. Change IS, ISO ceiling, frame rate, shutter, AF mode.</strong></div>
+
+  <div class="sl">Copy C1 Movie → C5 Movie</div>
+  <div class="step"><div class="sh"><div class="sn m">1</div><div class="st">Copy C1 → C5 (in Movie mode)</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C1</span> → Copy → select <span class="vm">C5</span> → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">2</div><div class="st">Mode dial → C5</div></div><div class="mp">Mode dial → <span class="vm">C5</span></div></div>
+
+  <div class="sl">Change what differs from C1 Movie</div>
+  <div class="step"><div class="sh"><div class="sn m">3</div><div class="st">Movie mode → 4K 24P</div></div><div class="mp">Menu → Movie setting → Movie mode → <span class="vm">4K 16:9 / 24P</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">4</div><div class="st">Shutter → 1/50s</div></div><div class="mp">Shutter → <span class="vm">1/50s</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">5</div><div class="st">ISO → Auto 100–800</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Movie setting → <span class="u">ISO auto setting</span> → Max → <span class="vm">ISO 800</span></div><div class="un">ISO auto setting label inside Movie setting not physically verified on your camera.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">6</div><div class="st">IS mode → OFF</div></div><div class="mp">Menu → Movie setting → IS mode (movie) → <span class="vm">OFF</span></div><div class="note">Camera is on a tripod for interview work. IS off prevents micro-jitter against a stable platform.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">7</div><div class="st">AF mode → Area · Face ON</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Movie setting → <span class="u">Movie AF mode</span> → <span class="vm">Area</span></div><div class="mp">Menu → AF/MF setting → Face/eye detection → <span class="vm">ON</span></div><div class="un">Movie AF mode label and Area option not physically verified. Area is the assumed Movie mode equivalent of Single Point — verify on camera. May be labeled differently.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn m">8</div><div class="st">Save to C5 Movie</div><span class="badge bsv">Save</span></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C5</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">9</div><div class="st">Name → CORP</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C5</span> → Edit custom name → <span class="vm">CORP</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">10</div><div class="st">Disable Auto Update (Movie)</div><span class="badge bc">Critical</span></div><div class="mp">Menu → Movie setting → Auto update custom setting → <span class="vm">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C5 Movie — changed settings (others from C1 Movie)</div>
+    <div class="sr"><span class="sk">Resolution / FPS</span><span class="sv m">4K 16:9 / 24P</span></div>
+    <div class="sr"><span class="sk">Shutter</span><span class="sv m">1/50s</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv m">Auto 100–800</span></div>
+    <div class="sr"><span class="sk">IS mode</span><span class="sv m">OFF</span></div>
+    <div class="sr"><span class="sk">AF mode</span><span class="sv m">Area · Face ON</span></div>
+    <div class="sr"><span class="sk">Color profile</span><span class="sv m">Eterna/Cinema (from C1)</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv m">CORP</span></div>
+  </div>
+</div>
+
+<!-- ===== C6 MOVIE ===== -->
+<div id="pane-m6" class="pane">
+  <div class="mvb">Movie/Still switch must be in Movie position. Build C4 Movie first — this slot copies from it.</div>
+  <div class="sid m">C6 Movie</div><div class="stitle">Low light video / dark stage</div>
+  <div class="sclient">Pittsburgh Symphony Orchestra video, performance venues, any low-light video. Maximum ISO ceiling, F-Log2 for grading dramatic stage lighting in DaVinci Resolve. ISO 6400 on this sensor with Resolve noise reduction is very usable.</div>
+  <div class="anch">Memory anchor: <span>C6 Movie = dark stage. F-Log2. ISO 6400 ceiling. IS on for handheld.</span></div>
+  <div class="bo">Build order: <strong>Copy C4 Movie into C6 Movie. Change ISO ceiling, frame rate, shutter, IS mode.</strong></div>
+
+  <div class="sl">Copy C4 Movie → C6 Movie</div>
+  <div class="step"><div class="sh"><div class="sn m">1</div><div class="st">Copy C4 → C6 (in Movie mode)</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C4</span> → Copy → select <span class="vm">C6</span> → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">2</div><div class="st">Mode dial → C6</div></div><div class="mp">Mode dial → <span class="vm">C6</span></div></div>
+
+  <div class="sl">Change what differs from C4 Movie</div>
+  <div class="step"><div class="sh"><div class="sn m">3</div><div class="st">Movie mode → 4K 24P</div></div><div class="mp">Menu → Movie setting → Movie mode → <span class="vm">4K 16:9 / 24P</span></div><div class="note">24P for PSO documentary deliverables. Cinematic frame rate matches the performance context.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">4</div><div class="st">Shutter → 1/50s</div></div><div class="mp">Shutter → <span class="vm">1/50s</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">5</div><div class="st">ISO → Auto 100–6400</div><span class="badge bu">Unverified path</span></div><div class="mp">ISO → <span class="vm">ISO AUTO</span></div><div class="mp">Menu → Movie setting → <span class="u">ISO auto setting</span> → Max → <span class="vm">ISO 6400</span></div><div class="un">ISO auto setting label inside Movie setting not physically verified on your camera.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">6</div><div class="st">IS mode → IBIS/OIS</div></div><div class="mp">Menu → Movie setting → IS mode (movie) → <span class="vm">IBIS/OIS</span></div><div class="note">Handheld at PSO venue. If locked to a tripod for a specific shot, switch IS to OFF for that shot.</div></div>
+  <div class="step"><div class="sh"><div class="sn m">7</div><div class="st">AF mode → Wide/Tracking · Face ON</div><span class="badge bu">Unverified path</span></div><div class="mp">Menu → Movie setting → <span class="u">Movie AF mode</span> → <span class="vm">Wide/Tracking</span></div><div class="mp">Menu → AF/MF setting → Face/eye detection → <span class="vm">ON</span></div><div class="un">Movie AF mode label not physically verified on your camera.</div></div>
+
+  <div class="sl">Save and lock</div>
+  <div class="step"><div class="sh"><div class="sn m">8</div><div class="st">Save to C6 Movie</div><span class="badge bsv">Save</span></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C6</span> → Save current settings → OK</div></div>
+  <div class="step"><div class="sh"><div class="sn m">9</div><div class="st">Name → DARKSTG</div></div><div class="mp">Menu → Movie setting → Edit/save custom setting → <span class="vm">C6</span> → Edit custom name → <span class="vm">DARKSTG</span></div></div>
+  <div class="step"><div class="sh"><div class="sn m">10</div><div class="st">Disable Auto Update (Movie)</div><span class="badge bc">Critical</span></div><div class="mp">Menu → Movie setting → Auto update custom setting → <span class="vm">Disabled</span></div></div>
+
+  <div class="sum">
+    <div class="sl" style="margin-top:0;">C6 Movie — changed settings (others from C4 Movie)</div>
+    <div class="sr"><span class="sk">Resolution / FPS</span><span class="sv m">4K 16:9 / 24P</span></div>
+    <div class="sr"><span class="sk">Shutter</span><span class="sv m">1/50s</span></div>
+    <div class="sr"><span class="sk">ISO</span><span class="sv m">Auto 100–6400</span></div>
+    <div class="sr"><span class="sk">IS mode</span><span class="sv m">IBIS/OIS</span></div>
+    <div class="sr"><span class="sk">Color profile</span><span class="sv m">F-Log2 (from C4)</span></div>
+    <div class="sr"><span class="sk">Name</span><span class="sv m">DARKSTG</span></div>
+  </div>
+</div>
+
+</div>
+<script>
+function sw(id,el){
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('s','m');});
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('active');});
+  el.classList.add(id.startsWith('m')?'m':'s');
+  document.getElementById('pane-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
