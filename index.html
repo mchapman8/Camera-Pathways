@@ -3,577 +3,489 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>GFX 100S II Slot Cards</title>
+<meta name="theme-color" content="#0C0E0F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
+/* Deliberately single-theme: a dim screen for dark rooms and quiet talks. */
 :root{
-  --ground:#EEF0EE;
-  --surface:#FFFFFF;
-  --ink:#16191B;
-  --muted:#5A6360;
-  --line:#D5DAD7;
-  --indoor:#A8561C;
-  --indoor-soft:#F6E7DB;
-  --outdoor:#2B6A99;
-  --outdoor-soft:#DDEAF4;
-  --warn:#8A5A00;
-  --warn-soft:#FBEFC9;
-  --readout-bg:#1B1F21;
-  --readout-ink:#EDF0EB;
-  --readout-dim:#9AA39F;
+  color-scheme:dark;
+  --ground:#0C0E0F;
+  --surface:#15181A;
+  --surface-2:#1C2023;
+  --line:#272C2F;
+  --ink:#E6E9E6;
+  --muted:#8E9893;
+  --indoor:#E39A5E;
+  --outdoor:#7DB4DE;
+  --warn:#F0C45A;
+  --warn-bg:#2E2610;
   --display:"Barlow Condensed","Arial Narrow","Helvetica Neue",Arial,sans-serif;
   --body:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ground:#111415;
-    --surface:#1A1E20;
-    --ink:#E7EAE7;
-    --muted:#9AA39F;
-    --line:#2C3235;
-    --indoor:#E39A5E;
-    --indoor-soft:#3A2717;
-    --outdoor:#7DB4DE;
-    --outdoor-soft:#172C3C;
-    --warn:#F0C45A;
-    --warn-soft:#3A2F12;
-    --readout-bg:#0A0C0D;
-    --readout-ink:#EDF0EB;
-    --readout-dim:#8C958F;
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#111415;
-  --surface:#1A1E20;
-  --ink:#E7EAE7;
-  --muted:#9AA39F;
-  --line:#2C3235;
-  --indoor:#E39A5E;
-  --indoor-soft:#3A2717;
-  --outdoor:#7DB4DE;
-  --outdoor-soft:#172C3C;
-  --warn:#F0C45A;
-  --warn-soft:#3A2F12;
-  --readout-bg:#0A0C0D;
-  --readout-ink:#EDF0EB;
-  --readout-dim:#8C958F;
-}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
+html{height:100%;box-sizing:border-box;background:var(--ground);-webkit-tap-highlight-color:transparent}
 body{
+  height:100%;
   background:var(--ground);
   color:var(--ink);
   font-family:var(--body);
   font-size:16px;
-  line-height:1.45;
+  line-height:1.4;
 }
-.wrap{
-  max-width:1180px;
+.screen{
+  min-height:100%;
+  max-width:560px;
   margin:0 auto;
   padding-inline:16px;
-  padding-block:24px 48px;
+  padding-block:14px 16px;
   display:flex;
   flex-direction:column;
-  gap:28px;
+  gap:14px;
 }
-header h1{
-  font-family:var(--display);
-  font-weight:700;
-  font-size:clamp(2rem,6vw,2.9rem);
-  line-height:1;
-  letter-spacing:.01em;
-  margin:0;
-  text-wrap:balance;
-}
-header p{margin:8px 0 0;color:var(--muted);max-width:62ch}
+a{color:inherit}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .eyebrow{
   font-family:var(--mono);
-  font-size:.72rem;
-  letter-spacing:.12em;
+  font-size:.7rem;
+  letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--muted);
-  margin:0 0 6px;
-}
-h2{
-  font-family:var(--display);
-  font-weight:600;
-  font-size:1.5rem;
-  letter-spacing:.02em;
-  margin:0 0 12px;
-}
-
-/* Dial strip */
-.dial{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-.dial a{
-  display:flex;
-  align-items:baseline;
-  gap:8px;
-  padding:8px 12px;
-  border-radius:6px;
-  border:1px solid var(--line);
-  background:var(--surface);
-  color:var(--ink);
-  text-decoration:none;
-  font-family:var(--display);
-  font-size:1.05rem;
-  font-weight:600;
-}
-.dial a b{font-weight:700;font-size:1.2rem}
-.dial a.in b{color:var(--indoor)}
-.dial a.out b{color:var(--outdoor)}
-.dial a:hover{border-color:var(--ink)}
-.dial a:focus-visible,.pick a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-
-/* Quick pick */
-.pick{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:1px;
-  background:var(--line);
-  border:1px solid var(--line);
-  border-radius:8px;
-  overflow:hidden;
-}
-@media (min-width:560px){.pick{grid-template-columns:repeat(2,1fr)}}
-@media (min-width:1000px){.pick{grid-template-columns:repeat(4,1fr)}}
-.pick a{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  padding:12px 16px;
-  background:var(--surface);
-  color:var(--ink);
-  text-decoration:none;
-}
-.pick a:hover{background:var(--ground)}
-.pick .slot{
-  font-family:var(--display);
-  font-weight:700;
-  font-size:1.25rem;
-  white-space:nowrap;
-}
-.pick .in .slot{color:var(--indoor)}
-.pick .out .slot{color:var(--outdoor)}
-.pick small{display:block;color:var(--muted);font-size:.82rem}
-
-/* Cards */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
-  gap:16px;
-}
-@media (max-width:400px){
-  .cards{grid-template-columns:1fr}
-}
-.card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  scroll-margin-top:16px;
-}
-.card-head{
-  display:flex;
-  align-items:flex-start;
-  gap:14px;
-}
-.num{
-  font-family:var(--display);
-  font-weight:700;
-  font-size:3.2rem;
-  line-height:.85;
-  letter-spacing:-.01em;
-  flex:none;
-}
-.in .num{color:var(--indoor)}
-.out .num{color:var(--outdoor)}
-.card-head h3{
-  font-family:var(--display);
-  font-weight:700;
-  font-size:1.6rem;
-  line-height:1;
   margin:0;
+}
+
+/* ---------- Home: the dial ---------- */
+#home{height:100%}
+.home-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.home-top h1{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:1.5rem;
   letter-spacing:.04em;
   text-transform:uppercase;
-}
-.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.tag{
-  font-family:var(--mono);
-  font-size:.68rem;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  padding:2px 7px;
-  border-radius:999px;
-}
-.tag.in{background:var(--indoor-soft);color:var(--indoor)}
-.tag.out{background:var(--outdoor-soft);color:var(--outdoor)}
-.tag.warn{background:var(--warn-soft);color:var(--warn)}
-.use{
   margin:0;
-  font-size:1.05rem;
-  font-weight:600;
 }
-.use span{color:var(--muted);font-weight:400}
-
-.readout{
-  background:var(--readout-bg);
-  color:var(--readout-ink);
-  border-radius:6px;
-  padding:10px 12px;
-  font-family:var(--mono);
-  font-size:.82rem;
+.dial{
+  flex:1;
   display:grid;
-  grid-template-columns:auto 1fr;
-  column-gap:12px;
-  row-gap:4px;
-  font-variant-numeric:tabular-nums;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(3,minmax(118px,1fr));
+  gap:10px;
 }
-.readout dt{color:var(--readout-dim);text-transform:uppercase;letter-spacing:.06em;font-size:.7rem;padding-top:2px}
-.readout dd{margin:0}
-.readout .big{font-size:1rem;font-weight:500}
-
-.why h4,.watch h4{
+.tile{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:14px 14px 12px;
+  border-radius:14px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  text-decoration:none;
+  position:relative;
+  overflow:hidden;
+}
+.tile:active{background:var(--surface-2)}
+.tile .n{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:clamp(3.6rem,17vw,5.2rem);
+  line-height:.8;
+  letter-spacing:-.01em;
+}
+.tile.in .n{color:var(--indoor)}
+.tile.out .n{color:var(--outdoor)}
+.tile .name{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:1.35rem;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  line-height:1;
+}
+.tile .hint{display:block;color:var(--muted);font-size:.82rem;margin-top:3px}
+.tile .where{
+  position:absolute;
+  top:12px;right:12px;
   font-family:var(--mono);
-  font-size:.7rem;
+  font-size:.62rem;
   letter-spacing:.12em;
   text-transform:uppercase;
   color:var(--muted);
-  margin:0 0 6px;
-  font-weight:500;
 }
-.why ul,.watch ul,.watch ol{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:4px}
-.why li,.watch li{font-size:.95rem}
-.watch{
-  border-top:1px dashed var(--line);
-  padding-top:12px;
-  margin-top:auto;
-}
-.watch.test{
-  border-top:none;
-  background:var(--warn-soft);
-  border-radius:6px;
-  padding:12px;
-}
-.watch.test h4{color:var(--warn)}
-
-/* Reference sections */
-.ref{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:16px;
-}
-.panel{
+.tile.out .where{color:var(--outdoor)}
+.home-foot{display:flex;gap:10px}
+.chip{
+  flex:1;
+  font-size:.82rem;
+  color:var(--muted);
   background:var(--surface);
   border:1px solid var(--line);
   border-radius:10px;
-  padding:18px;
+  padding:9px 12px;
 }
-.table-scroll{overflow-x:auto}
-table{
-  border-collapse:collapse;
-  width:100%;
-  font-size:.9rem;
+.chip b{color:var(--ink);font-weight:600}
+.ref-btn{
+  display:flex;align-items:center;justify-content:center;
+  padding:9px 14px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  text-decoration:none;
+  font-family:var(--display);
+  font-weight:600;
+  font-size:1.05rem;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+
+/* ---------- Slot screen ---------- */
+.slot-head{display:flex;align-items:flex-end;gap:14px;padding-top:4px}
+.slot-head .n{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:6.5rem;
+  line-height:.78;
+  letter-spacing:-.02em;
+}
+.in .slot-head .n{color:var(--indoor)}
+.out .slot-head .n{color:var(--outdoor)}
+.slot-head h2{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:2.1rem;
+  line-height:.9;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin:0;
+}
+.use{margin:0;font-size:1.2rem;font-weight:600;text-wrap:balance}
+.reads{
+  list-style:none;
+  margin:0;padding:0;
+  border-top:1px solid var(--line);
+}
+.reads li{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+}
+.reads .k{
+  font-family:var(--mono);
+  font-size:.66rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.reads .v{
+  font-family:var(--mono);
+  font-weight:500;
+  font-size:1.2rem;
   font-variant-numeric:tabular-nums;
 }
-th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-th{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
-td.mono{font-family:var(--mono)}
-.kv{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:6px;font-size:.92rem}
+.reads .v.big{font-size:1.55rem}
+.reads .v em{font-style:normal;color:var(--warn)}
+.tip{
+  margin:0;
+  padding:10px 12px;
+  border-radius:10px;
+  background:var(--surface);
+  font-size:.98rem;
+}
+.tip b{color:var(--ink)}
+.tip.warn{background:var(--warn-bg);color:var(--warn)}
+.tip.warn b{color:var(--warn)}
+details{
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--surface);
+}
+summary{
+  cursor:pointer;
+  list-style:none;
+  padding:11px 12px;
+  font-family:var(--mono);
+  font-size:.75rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  display:flex;justify-content:space-between;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1rem;line-height:1}
+details[open] summary::after{content:"–"}
+details ul,details ol{margin:0;padding:0 12px 12px 30px;display:flex;flex-direction:column;gap:5px;font-size:.95rem}
+.test summary{color:var(--warn)}
+.spacer{flex:1}
+.back{
+  position:sticky;
+  bottom:calc(10px + env(safe-area-inset-bottom, 0px));
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  min-height:56px;
+  border-radius:14px;
+  background:var(--ink);
+  color:var(--ground);
+  text-decoration:none;
+  font-family:var(--display);
+  font-weight:700;
+  font-size:1.35rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+/* ---------- Reference ---------- */
+.ref h2{
+  font-family:var(--display);font-weight:700;font-size:2rem;
+  letter-spacing:.05em;text-transform:uppercase;margin:0;
+}
+.ref h3{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);font-weight:500;margin:0 0 6px;
+}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.table-scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:.85rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.kv{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:5px;font-size:.9rem}
 .kv dt{color:var(--muted)}
 .kv dd{margin:0;font-family:var(--mono);font-size:.85rem}
-.notes{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:8px;font-size:.95rem}
-.path{font-family:var(--mono);font-size:.82rem;background:var(--ground);padding:1px 5px;border-radius:4px}
-footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:14px}
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-html{scroll-behavior:smooth}
+.notes{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:7px;font-size:.93rem}
+.path{font-family:var(--mono);font-size:.78rem;color:var(--ink);background:var(--surface-2);padding:1px 5px;border-radius:4px}
+.fine{color:var(--muted);font-size:.78rem;margin:0}
 </style>
 </head>
 <body style="margin:0">
 
-<div class="wrap">
-
-<header>
-  <p class="eyebrow">LIAP · Fujifilm GFX 100S II · Stills custom slots</p>
-  <h1>Slot Cards</h1>
-  <p>Indoor event candids under office lighting, handheld, plus two emergency outdoor slots. Shutter speed comes first; ISO climbs to protect it and noise gets cleaned up in post.</p>
-</header>
-
-<nav class="dial" aria-label="Jump to slot">
-  <a class="in" href="#c1"><b>C1</b> Candid</a>
-  <a class="in" href="#c2"><b>C2</b> Move</a>
-  <a class="in" href="#c3"><b>C3</b> Speaker</a>
-  <a class="in" href="#c4"><b>C4</b> Silent</a>
-  <a class="out" href="#c5"><b>C5</b> Sun</a>
-  <a class="out" href="#c6"><b>C6</b> Overcast</a>
-</nav>
-
-<section aria-labelledby="pick-h">
-  <h2 id="pick-h">What's happening in front of you?</h2>
-  <div class="pick">
-    <a class="in" href="#c1"><span>People mingling, talking, reacting<small>Your default indoors</small></span><span class="slot">C1</span></a>
-    <a class="in" href="#c1"><span>Posed group<small>C1, stop down to f/5.6, focus switch to S</small></span><span class="slot">C1*</span></a>
-    <a class="in" href="#c2"><span>Handshake, applause, people walking<small>Anything quick</small></span><span class="slot">C2</span></a>
-    <a class="in" href="#c3"><span>Someone presenting<small>Shutter sound is fine</small></span><span class="slot">C3</span></a>
-    <a class="in" href="#c4"><span>Quiet moment during a talk<small>Shutter sound would be noticed</small></span><span class="slot">C4</span></a>
-    <a class="out" href="#c5"><span>Outside, bright sun</span><span class="slot">C5</span></a>
-    <a class="out" href="#c6"><span>Outside, clouds / gray day</span><span class="slot">C6</span></a>
-    <a class="in" href="#c1"><span>Back inside from outdoors<small>Flicker protection back on</small></span><span class="slot">C1</span></a>
+<!-- HOME -->
+<section class="screen" id="home" data-screen>
+  <div class="home-top">
+    <h1>Slots</h1>
+    <p class="eyebrow">GFX 100S II</p>
+  </div>
+  <nav class="dial" aria-label="Custom slots">
+    <a class="tile in" href="#c1">
+      <span class="where">In</span>
+      <span class="n">C1</span>
+      <span><span class="name">Candid</span><span class="hint">Mingling · default</span></span>
+    </a>
+    <a class="tile in" href="#c2">
+      <span class="where">In</span>
+      <span class="n">C2</span>
+      <span><span class="name">Move</span><span class="hint">Handshake · applause</span></span>
+    </a>
+    <a class="tile in" href="#c3">
+      <span class="where">In</span>
+      <span class="n">C3</span>
+      <span><span class="name">Speaker</span><span class="hint">Presenting</span></span>
+    </a>
+    <a class="tile in" href="#c4">
+      <span class="where">In</span>
+      <span class="n">C4</span>
+      <span><span class="name">Silent</span><span class="hint">Quiet moment</span></span>
+    </a>
+    <a class="tile out" href="#c5">
+      <span class="where">Out</span>
+      <span class="n">C5</span>
+      <span><span class="name">Sun</span><span class="hint">Bright sun</span></span>
+    </a>
+    <a class="tile out" href="#c6">
+      <span class="where">Out</span>
+      <span class="n">C6</span>
+      <span><span class="name">Overcast</span><span class="hint">Clouds · gray</span></span>
+    </a>
+  </nav>
+  <div class="home-foot">
+    <p class="chip"><b>Group:</b> C1 · f/5.6 · switch S<br><b>Back inside:</b> C1</p>
+    <a class="ref-btn" href="#ref">Ref</a>
   </div>
 </section>
 
-<section class="cards" aria-label="Slot cards">
-
-  <!-- C1 -->
-  <article class="card in" id="c1">
-    <div class="card-head">
-      <div class="num">C1</div>
-      <div>
-        <h3>Candid</h3>
-        <div class="tags"><span class="tag in">Indoor</span><span class="tag in">Default</span></div>
-      </div>
-    </div>
-    <p class="use">People mingling, talking, reacting. <span>Your home base indoors.</span></p>
-    <dl class="readout">
-      <dt>Expo</dt><dd class="big">A · f/4 · AUTO1</dd>
-      <dt>ISO</dt><dd>80–12800, holds 1/250 or faster</dd>
-      <dt>Shutter</dt><dd>Mechanical · Flicker: ALL FRAMES</dd>
-      <dt>Focus</dt><dd>Switch C · TRACKING · SET 1</dd>
-      <dt>Face</dt><dd>ON · Eye AUTO</dd>
-      <dt>Drive</dt><dd>CL</dd>
-    </dl>
-    <div class="why">
-      <h4>Why</h4>
-      <ul>
-        <li>f/4 is the most light the 45-100 gives you.</li>
-        <li>Auto ISO holds 1/250 so talking hands stay sharp. ISO rises instead.</li>
-        <li>Tracking + face detect follows whoever moves through the frame.</li>
-        <li>Short CL bursts catch the best expression without flooding the cards.</li>
-      </ul>
-    </div>
-    <div class="watch">
-      <h4>Watch for</h4>
-      <ul>
-        <li><strong>Groups:</strong> turn to f/5.6 by hand and flip the focus switch to S. Burst a few frames to beat blinks.</li>
-        <li>In a very dim room, once ISO hits 12800 the shutter may slip below 1/250.</li>
-      </ul>
-    </div>
-  </article>
-
-  <!-- C2 -->
-  <article class="card in" id="c2">
-    <div class="card-head">
-      <div class="num">C2</div>
-      <div>
-        <h3>Move</h3>
-        <div class="tags"><span class="tag in">Indoor</span><span class="tag in">Action</span></div>
-      </div>
-    </div>
-    <p class="use">Handshakes, applause, people walking. <span>Split-second moments.</span></p>
-    <dl class="readout">
-      <dt>Expo</dt><dd class="big">S · 1/500 · AUTO3</dd>
-      <dt>ISO</dt><dd>80–12800 (only the cap matters in S)</dd>
-      <dt>Shutter</dt><dd>Mechanical · Flicker: ALL FRAMES · Flickerless ON</dd>
-      <dt>Focus</dt><dd>Switch C · ZONE (centered) · SET 2</dd>
-      <dt>Face</dt><dd>ON · Eye AUTO</dd>
-      <dt>Drive</dt><dd>CH</dd>
-    </dl>
-    <div class="why">
-      <h4>Why</h4>
-      <ul>
-        <li>S mode locks 1/500 to freeze clapping hands and walking.</li>
-        <li>Zone covers the area where the action happens.</li>
-        <li>SET 2 is meant to stay on your subject when someone crosses in front.</li>
-        <li>CH gives you the most frames at the peak moment.</li>
-      </ul>
-    </div>
-    <div class="watch">
-      <h4>Watch for</h4>
-      <ul>
-        <li>Dim room ≈ ISO 10,000, close to the cap. If frames go dark, drop to 1/250.</li>
-        <li>If ALL FRAMES slows the burst too much, switch to FIRST FRAME and re-save C2.</li>
-      </ul>
-    </div>
-  </article>
-
-  <!-- C3 -->
-  <article class="card in" id="c3">
-    <div class="card-head">
-      <div class="num">C3</div>
-      <div>
-        <h3>Speaker</h3>
-        <div class="tags"><span class="tag in">Indoor</span><span class="tag in">Presenter</span></div>
-      </div>
-    </div>
-    <p class="use">Someone at the podium or presenting. <span>Shutter sound is OK.</span></p>
-    <dl class="readout">
-      <dt>Expo</dt><dd class="big">M · f/4 · 1/250 · AUTO3</dd>
-      <dt>ISO</dt><dd>80–12800 (Auto ISO in M)</dd>
-      <dt>Shutter</dt><dd>Mechanical · Flicker: ALL FRAMES · Flickerless ON</dd>
-      <dt>Focus</dt><dd>Switch C · SINGLE POINT (centered) · SET 1</dd>
-      <dt>Face</dt><dd>OFF</dd>
-      <dt>Drive</dt><dd>S (single)</dd>
-    </dl>
-    <div class="why">
-      <h4>Why</h4>
-      <ul>
-        <li>The speaker's lighting stays constant. M holds the shutter and aperture while Auto ISO adjusts.</li>
-        <li>1/250 freezes gestures.</li>
-        <li>Single point with face detect OFF keeps focus from jumping to faces in the audience.</li>
-        <li>Single frames for deliberate, timed shots.</li>
-      </ul>
-    </div>
-    <div class="watch">
-      <h4>Watch for</h4>
-      <ul>
-        <li>A bright projector screen behind the speaker can throw off the meter. Check the histogram.</li>
-      </ul>
-    </div>
-  </article>
-
-  <!-- C4 -->
-  <article class="card in" id="c4">
-    <div class="card-head">
-      <div class="num">C4</div>
-      <div>
-        <h3>Silent</h3>
-        <div class="tags"><span class="tag in">Indoor</span><span class="tag warn">Test on site</span></div>
-      </div>
-    </div>
-    <p class="use">Quiet moments during a talk. <span>When shutter noise would be noticed.</span></p>
-    <dl class="readout">
-      <dt>Expo</dt><dd class="big">M · f/4 · 1/125 → tune to ~1/120</dd>
-      <dt>ISO</dt><dd>AUTO3 · 80–12800</dd>
-      <dt>Shutter</dt><dd>ELECTRONIC · Flicker reduction N/A · Flickerless ON</dd>
-      <dt>Focus</dt><dd>Switch C · SINGLE POINT (centered) · SET 1</dd>
-      <dt>Face</dt><dd>OFF</dd>
-      <dt>Drive</dt><dd>S (single)</dd>
-    </dl>
-    <div class="why">
-      <h4>Why</h4>
-      <ul>
-        <li>The electronic shutter is silent.</li>
-        <li>Flicker reduction doesn't work with the electronic shutter, so the shutter speed has to prevent banding.</li>
-        <li>~1/120 = one full flicker cycle per line of the frame, which should even out the bands (reasoning, not from the manual).</li>
-        <li>Same focus setup as C3, since it's the same subject.</li>
-      </ul>
-    </div>
-    <div class="watch test">
-      <h4>On-site test</h4>
-      <ol>
-        <li>Shoot a blank wall, zoom to 100%, look for bands.</li>
-        <li>Bands → fine-tune with Flickerless.</li>
-        <li>Still banding → try 1/60.</li>
-        <li>No bands at all (steady lights) → try 1/250.</li>
-        <li>Shoot a hand mid-gesture and check for skew.</li>
-        <li>Found a good value → re-save C4.</li>
-        <li>Fails → use C3 during talks.</li>
-      </ol>
-    </div>
-  </article>
-
-  <!-- C5 -->
-  <article class="card out" id="c5">
-    <div class="card-head">
-      <div class="num">C5</div>
-      <div>
-        <h3>Sun</h3>
-        <div class="tags"><span class="tag out">Outdoor</span><span class="tag out">Emergency</span></div>
-      </div>
-    </div>
-    <p class="use">Outside in bright sun.</p>
-    <dl class="readout">
-      <dt>Expo</dt><dd class="big">A · f/8 · AUTO3</dd>
-      <dt>ISO</dt><dd>80–12800, holds 1/2000 or faster</dd>
-      <dt>Shutter</dt><dd>Mechanical · Flicker: OFF</dd>
-      <dt>Focus</dt><dd>Switch C · TRACKING · SET 1</dd>
-      <dt>Face</dt><dd>ON · Eye AUTO</dd>
-      <dt>Drive</dt><dd>CL</dd>
-    </dl>
-    <div class="why">
-      <h4>Why</h4>
-      <ul>
-        <li>Lots of light, so f/8 gives extra depth at no cost.</li>
-        <li>A 1/2000 minimum keeps everything crisp. Expect about ISO 400.</li>
-        <li>Sunlight doesn't flicker. Turning reduction off keeps the full burst speed.</li>
-      </ul>
-    </div>
-    <div class="watch">
-      <h4>Watch for</h4>
-      <ul>
-        <li>Walking back inside? Switch to C1. This slot has no flicker protection.</li>
-      </ul>
-    </div>
-  </article>
-
-  <!-- C6 -->
-  <article class="card out" id="c6">
-    <div class="card-head">
-      <div class="num">C6</div>
-      <div>
-        <h3>Overcast</h3>
-        <div class="tags"><span class="tag out">Outdoor</span><span class="tag out">Emergency</span></div>
-      </div>
-    </div>
-    <p class="use">Outside under clouds or on a gray day.</p>
-    <dl class="readout">
-      <dt>Expo</dt><dd class="big">A · f/5.6 · AUTO2</dd>
-      <dt>ISO</dt><dd>80–12800, holds 1/1000 or faster</dd>
-      <dt>Shutter</dt><dd>Mechanical · Flicker: OFF</dd>
-      <dt>Focus</dt><dd>Switch C · TRACKING · SET 1</dd>
-      <dt>Face</dt><dd>ON · Eye AUTO</dd>
-      <dt>Drive</dt><dd>CL</dd>
-    </dl>
-    <div class="why">
-      <h4>Why</h4>
-      <ul>
-        <li>Less light than sun, so one stop wider than C5 keeps ISO around 400–1,600.</li>
-        <li>1/1000 still freezes people moving outdoors.</li>
-        <li>No flicker outside. Reduction off keeps the full burst speed.</li>
-      </ul>
-    </div>
-    <div class="watch">
-      <h4>Watch for</h4>
-      <ul>
-        <li>Walking back inside? Switch to C1. This slot has no flicker protection.</li>
-      </ul>
-    </div>
-  </article>
-
+<!-- C1 -->
+<section class="screen in" id="c1" data-screen hidden>
+  <div class="slot-head"><span class="n">C1</span><h2>Candid</h2></div>
+  <p class="use">People mingling, talking, reacting. Your default indoors.</p>
+  <ul class="reads">
+    <li><span class="k">Exposure</span><span class="v big">A · f/4 · ≥1/250</span></li>
+    <li><span class="k">Focus</span><span class="v">Switch C · Tracking · Face ON</span></li>
+    <li><span class="k">Shutter</span><span class="v">Mechanical · Flicker ALL</span></li>
+    <li><span class="k">Drive</span><span class="v">CL</span></li>
+  </ul>
+  <p class="tip"><b>Posed group?</b> Turn to f/5.6 and flip the focus switch to S. Burst a few frames for blinks.</p>
+  <details>
+    <summary>Why</summary>
+    <ul>
+      <li>f/4 is the most light the lens gives you.</li>
+      <li>Auto ISO (AUTO1) holds 1/250 so hands stay sharp. ISO rises instead, up to 12800.</li>
+      <li>Tracking + face detect follows whoever moves through the frame.</li>
+      <li>Short CL bursts catch the best expression.</li>
+      <li>Very dim room: once ISO hits 12800, the shutter may slip below 1/250.</li>
+    </ul>
+  </details>
+  <div class="spacer"></div>
+  <a class="back" href="#home">← Slots</a>
 </section>
 
-<section class="ref" aria-label="Reference">
+<!-- C2 -->
+<section class="screen in" id="c2" data-screen hidden>
+  <div class="slot-head"><span class="n">C2</span><h2>Move</h2></div>
+  <p class="use">Handshakes, applause, people walking. Split-second moments.</p>
+  <ul class="reads">
+    <li><span class="k">Exposure</span><span class="v big">S · 1/500</span></li>
+    <li><span class="k">Focus</span><span class="v">Switch C · Zone · SET 2 · Face ON</span></li>
+    <li><span class="k">Shutter</span><span class="v">Mechanical · Flicker ALL</span></li>
+    <li><span class="k">Drive</span><span class="v">CH</span></li>
+  </ul>
+  <p class="tip"><b>Frames coming out dark?</b> Dim room — drop to 1/250.</p>
+  <details>
+    <summary>Why</summary>
+    <ul>
+      <li>S locks 1/500 to freeze clapping hands and walking.</li>
+      <li>Auto ISO (AUTO3) only uses its 12800 cap here. A dim room needs about ISO 10,000.</li>
+      <li>Zone covers the area where the action happens. SET 2 is meant to stay on your subject when someone crosses in front.</li>
+      <li>CH gives the most frames at the peak moment.</li>
+      <li>If ALL FRAMES slows the burst too much, switch to FIRST FRAME and re-save C2.</li>
+    </ul>
+  </details>
+  <div class="spacer"></div>
+  <a class="back" href="#home">← Slots</a>
+</section>
 
-  <div class="panel">
-    <h2>Auto ISO presets</h2>
+<!-- C3 -->
+<section class="screen in" id="c3" data-screen hidden>
+  <div class="slot-head"><span class="n">C3</span><h2>Speaker</h2></div>
+  <p class="use">Someone presenting. Shutter sound is OK.</p>
+  <ul class="reads">
+    <li><span class="k">Exposure</span><span class="v big">M · f/4 · 1/250</span></li>
+    <li><span class="k">Focus</span><span class="v">Switch C · Single point · Face OFF</span></li>
+    <li><span class="k">Shutter</span><span class="v">Mechanical · Flicker ALL</span></li>
+    <li><span class="k">Drive</span><span class="v">S (single)</span></li>
+  </ul>
+  <p class="tip"><b>Bright screen behind them?</b> The meter can be fooled — check the histogram.</p>
+  <details>
+    <summary>Why</summary>
+    <ul>
+      <li>The speaker's light stays steady. M holds shutter and aperture while Auto ISO (AUTO3, cap 12800) adjusts.</li>
+      <li>1/250 freezes gestures.</li>
+      <li>Single point with face detect OFF keeps focus from jumping to faces in the audience.</li>
+      <li>Single frames for deliberate, timed shots.</li>
+    </ul>
+  </details>
+  <div class="spacer"></div>
+  <a class="back" href="#home">← Slots</a>
+</section>
+
+<!-- C4 -->
+<section class="screen in" id="c4" data-screen hidden>
+  <div class="slot-head"><span class="n">C4</span><h2>Silent</h2></div>
+  <p class="use">Quiet moment during a talk. When shutter noise would be noticed.</p>
+  <ul class="reads">
+    <li><span class="k">Exposure</span><span class="v big">M · f/4 · <em>~1/120</em></span></li>
+    <li><span class="k">Focus</span><span class="v">Switch C · Single point · Face OFF</span></li>
+    <li><span class="k">Shutter</span><span class="v"><em>Electronic</em> · Flickerless ON</span></li>
+    <li><span class="k">Drive</span><span class="v">S (single)</span></li>
+  </ul>
+  <p class="tip warn"><b>Test before relying on it.</b> If it fails, use C3.</p>
+  <details class="test">
+    <summary>On-site test</summary>
+    <ol>
+      <li>Shoot a blank wall, zoom to 100%, look for bands.</li>
+      <li>Bands → fine-tune with Flickerless (saved at 1/125).</li>
+      <li>Still banding → try 1/60.</li>
+      <li>No bands at all → try 1/250.</li>
+      <li>Shoot a hand mid-gesture and check for skew.</li>
+      <li>Found a good value → re-save C4.</li>
+    </ol>
+  </details>
+  <details>
+    <summary>Why</summary>
+    <ul>
+      <li>The electronic shutter is silent.</li>
+      <li>Flicker reduction doesn't work with it, so the shutter speed has to prevent banding.</li>
+      <li>~1/120 = one full flicker cycle per line of the frame (reasoning, not from the manual).</li>
+      <li>Same focus setup as C3, since it's the same subject.</li>
+    </ul>
+  </details>
+  <div class="spacer"></div>
+  <a class="back" href="#home">← Slots</a>
+</section>
+
+<!-- C5 -->
+<section class="screen out" id="c5" data-screen hidden>
+  <div class="slot-head"><span class="n">C5</span><h2>Sun</h2></div>
+  <p class="use">Outside in bright sun.</p>
+  <ul class="reads">
+    <li><span class="k">Exposure</span><span class="v big">A · f/8 · ≥1/2000</span></li>
+    <li><span class="k">Focus</span><span class="v">Switch C · Tracking · Face ON</span></li>
+    <li><span class="k">Shutter</span><span class="v">Mechanical · Flicker OFF</span></li>
+    <li><span class="k">Drive</span><span class="v">CL</span></li>
+  </ul>
+  <p class="tip"><b>Back inside?</b> Switch to C1 — this slot has no flicker protection.</p>
+  <details>
+    <summary>Why</summary>
+    <ul>
+      <li>Lots of light, so f/8 gives extra depth at no cost.</li>
+      <li>Auto ISO (AUTO3) holds 1/2000. Expect about ISO 400.</li>
+      <li>Sunlight doesn't flicker. Reduction off keeps the full burst speed.</li>
+    </ul>
+  </details>
+  <div class="spacer"></div>
+  <a class="back" href="#home">← Slots</a>
+</section>
+
+<!-- C6 -->
+<section class="screen out" id="c6" data-screen hidden>
+  <div class="slot-head"><span class="n">C6</span><h2>Overcast</h2></div>
+  <p class="use">Outside under clouds or on a gray day.</p>
+  <ul class="reads">
+    <li><span class="k">Exposure</span><span class="v big">A · f/5.6 · ≥1/1000</span></li>
+    <li><span class="k">Focus</span><span class="v">Switch C · Tracking · Face ON</span></li>
+    <li><span class="k">Shutter</span><span class="v">Mechanical · Flicker OFF</span></li>
+    <li><span class="k">Drive</span><span class="v">CL</span></li>
+  </ul>
+  <p class="tip"><b>Back inside?</b> Switch to C1 — this slot has no flicker protection.</p>
+  <details>
+    <summary>Why</summary>
+    <ul>
+      <li>Less light than sun, so one stop wider than C5. Expect about ISO 400–1,600.</li>
+      <li>Auto ISO (AUTO2) holds 1/1000, which still freezes people moving.</li>
+      <li>No flicker outside. Reduction off keeps the full burst speed.</li>
+    </ul>
+  </details>
+  <div class="spacer"></div>
+  <a class="back" href="#home">← Slots</a>
+</section>
+
+<!-- REFERENCE -->
+<section class="screen ref" id="ref" data-screen hidden>
+  <h2>Reference</h2>
+  <div class="block">
+    <h3>Auto ISO presets</h3>
     <div class="table-scroll">
       <table>
-        <thead><tr><th>Preset</th><th>Start</th><th>Max</th><th>Min shutter</th><th>Used by</th></tr></thead>
+        <thead><tr><th>Preset</th><th>Start</th><th>Max</th><th>Min SS</th><th>Slots</th></tr></thead>
         <tbody>
-          <tr><td class="mono">AUTO1</td><td class="mono">80</td><td class="mono">12800</td><td class="mono">1/250</td><td>C1</td></tr>
-          <tr><td class="mono">AUTO2</td><td class="mono">80</td><td class="mono">12800</td><td class="mono">1/1000</td><td>C6</td></tr>
-          <tr><td class="mono">AUTO3</td><td class="mono">80</td><td class="mono">12800</td><td class="mono">1/2000</td><td>C5 · C2–C4*</td></tr>
+          <tr><td>AUTO1</td><td>80</td><td>12800</td><td>1/250</td><td>C1</td></tr>
+          <tr><td>AUTO2</td><td>80</td><td>12800</td><td>1/1000</td><td>C6</td></tr>
+          <tr><td>AUTO3</td><td>80</td><td>12800</td><td>1/2000</td><td>C5, C2–C4*</td></tr>
         </tbody>
       </table>
     </div>
-    <p style="margin:10px 0 0;color:var(--muted);font-size:.85rem">*In S and M you set the shutter yourself, so only the 12800 cap applies.</p>
+    <p class="fine">*S and M set their own shutter, so only the 12800 cap applies.</p>
   </div>
-
-  <div class="panel">
-    <h2>Same in every slot</h2>
+  <div class="block">
+    <h3>Same in every slot</h3>
     <dl class="kv">
       <dt>Quality</dt><dd>FINE+RAW</dd>
       <dt>RAW</dt><dd>Lossless · 14-bit</dd>
-      <dt>Dynamic range</dt><dd>100% · D-Range Priority OFF</dd>
+      <dt>Dynamic range</dt><dd>100% · DR Priority OFF</dd>
       <dt>White balance</dt><dd>AUTO</dd>
       <dt>High ISO NR</dt><dd>−2 (JPEG only)</dd>
       <dt>Subject detect</dt><dd>OFF</dd>
@@ -584,23 +496,40 @@ html{scroll-behavior:smooth}
       <dt>Auto update</dt><dd>DISABLE</dd>
     </dl>
   </div>
-
-  <div class="panel">
-    <h2>Remember</h2>
+  <div class="block">
+    <h3>Remember</h3>
     <ul class="notes">
-      <li><strong>The focus switch is physical,</strong> so it's probably not saved with a slot. Keep it on C; switch to S for posed groups.</li>
-      <li><strong>Changes made at the shoot won't stick.</strong> Auto Update is off. To keep a change: set it on P/S/A/M, then <span class="path">IMAGE QUALITY SETTING › EDIT/SAVE CUSTOM SETTING › Cx › SAVE CURRENT SETTINGS</span>.</li>
-      <li><strong>Banding or brightness jumping between frames = flicker.</strong> C1–C3 are protected. C4 relies on its shutter speed. C5 and C6 have no protection.</li>
-      <li><strong>Movie slots were not changed.</strong> Keep the STILL/MOVIE switch on STILL.</li>
+      <li><b>Focus switch is physical</b> — probably not saved with a slot. C for all slots, S for posed groups.</li>
+      <li><b>Changes at the shoot won't stick.</b> To keep one, set it on P/S/A/M, then <span class="path">IMAGE QUALITY SETTING › EDIT/SAVE CUSTOM SETTING › Cx › SAVE CURRENT SETTINGS</span></li>
+      <li><b>Banding or brightness jumping = flicker.</b> C1–C3 protected · C4 relies on its shutter speed · C5–C6 unprotected.</li>
+      <li><b>Movie slots unchanged.</b> Keep the switch on STILL.</li>
     </ul>
   </div>
-
+  <p class="fine">Slot plan locked Sept 17, 2026. Menu names checked against Fujifilm's online GFX100S II manual. ISO figures are estimates.</p>
+  <div class="spacer"></div>
+  <a class="back" href="#home">← Slots</a>
 </section>
 
-<footer>
-  Slot plan locked Sept 17, 2026. Menu names checked against Fujifilm's online GFX100S II manual. Exposure figures are estimates for a typical office (~300–500 lux) and a dim conference room (~200 lux).
-</footer>
-
-</div>
+<script>
+(function () {
+  var screens = document.querySelectorAll('[data-screen]');
+  function route() {
+    var id = (location.hash || '#home').slice(1);
+    var target = document.getElementById(id);
+    if (!target || !target.hasAttribute('data-screen')) { id = 'home'; }
+    for (var i = 0; i < screens.length; i++) {
+      screens[i].hidden = screens[i].id !== id;
+    }
+    // Collapse any open panels when leaving a slot
+    var open = document.querySelectorAll('details[open]');
+    for (var j = 0; j < open.length; j++) {
+      if (!open[j].closest('#' + id)) open[j].open = false;
+    }
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
 </body>
 </html>
